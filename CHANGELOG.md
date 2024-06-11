@@ -17,6 +17,7 @@ Each version section may have subsections for: _Added_, _Changed_, _Removed_, _D
 
 - Added support for [signwriting-evaluation](https://github.com/sign-language-processing/signwriting-evaluation) to
   allow evaluating SignWriting text translation outputs.
+- Allow easier programmatic use by extracting code from `translate.py`.
 
 ## [3.1.37]
 

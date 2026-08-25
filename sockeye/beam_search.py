@@ -932,7 +932,7 @@ class BeamSearch(Search):
         # repeat states to beam_size
         if self._traced_repeat_states is None:
             logger.debug("Tracing repeat_states")
-            self._traced_repeat_states = pt.jit.trace(self._repeat_states, model_states, strict=False)
+            self._traced_repeat_states = pt.jit.trace(self._repeat_states, model_states, strict=False, check_trace=False)
         model_states = self._traced_repeat_states(*model_states)
         # repeat estimated_reference_lengths to shape (batch_size * beam_size)
         estimated_reference_lengths = estimated_reference_lengths.repeat_interleave(self.beam_size, dim=0)
@@ -1023,7 +1023,7 @@ class BeamSearch(Search):
 
                 if self._traced_top is None:
                     logger.debug("Tracing _top")
-                    self._traced_top = pt.jit.trace(self._top, (scores,))
+                    self._traced_top = pt.jit.trace(self._top, (scores,), check_trace=False)
                 best_hyp_indices, best_word_indices, scores_accumulated = self._traced_top(scores)
                 if batch_size > 1:
                     # Offsetting the indices to match the shape of the scores matrix
@@ -1041,7 +1041,7 @@ class BeamSearch(Search):
                 _sort_inputs += [target_factors, *factor_scores_accumulated]
             if self._traced_sort_norm_and_update_finished is None:
                 self._traced_sort_norm_and_update_finished = pt.jit.trace(self._sort_norm_and_update_finished,
-                                                                          _sort_inputs)
+                                                                          _sort_inputs, check_trace=False)
             best_word_indices, finished, \
             (scores_accumulated, *factor_scores_accumulated), \
             lengths, estimated_reference_lengths = self._traced_sort_norm_and_update_finished(*_sort_inputs)
@@ -1056,7 +1056,7 @@ class BeamSearch(Search):
             # (5) update models' state with winning hypotheses (ascending)
             if self._traced_sort_states is None:
                 logger.debug("Tracing sort_states")
-                self._traced_sort_states = pt.jit.trace(self._sort_states, (best_hyp_indices, *model_states))
+                self._traced_sort_states = pt.jit.trace(self._sort_states, (best_hyp_indices, *model_states), check_trace=False)
             model_states = self._traced_sort_states(best_hyp_indices, *model_states)
 
         logger.debug("Finished after %d out of %d steps.", t, max_iterations)

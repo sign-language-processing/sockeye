@@ -187,7 +187,7 @@ class DecoderStateGenerator:
                 model_inputs = (batch.source, batch.source_length, batch.target, batch.target_length)
                 if self.traced_model is None:
                     trace_inputs = {'get_decoder_states': model_inputs}
-                    self.traced_model = pt.jit.trace_module(self.model, trace_inputs, strict=False)
+                    self.traced_model = pt.jit.trace_module(self.model, trace_inputs, strict=False, check_trace=False)
                 # shape: (batch, seq_len, hidden_dim)
                 decoder_states = self.traced_model.get_decoder_states(*model_inputs)  # type: ignore
 

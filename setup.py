@@ -108,7 +108,7 @@ args = dict(
 
     license='Apache License 2.0',
 
-    python_requires='>=3',
+    python_requires='>=3.12',
 
     packages=find_packages(exclude=("test", "test.*")),
 

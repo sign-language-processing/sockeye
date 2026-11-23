@@ -1293,7 +1293,7 @@ class Translator:
             sequence = _unshift_target_factors(sequence, fill_last_with=C.EOS_ID)
         else:
             sequence = sequence.tolist()
-        length = int(length)  # type: ignore
+        length = int(length.item())  # type: ignore
         sequence = sequence[:length]  # type: ignore
         scores = seq_scores.tolist()
         estimated_reference_length = float(estimated_reference_length) if estimated_reference_length else None

@@ -252,8 +252,8 @@ class TopKLexicon(RestrictLexicon):
         :param src_ids: Sequence(s) of source ids (any shape).
         :return: Possible target ids for source (unique sorted, always includes special symbols).
         """
-        unique_src_ids = np.lib.arraysetops.unique(src_ids)  # type: ignore
-        trg_ids = np.lib.arraysetops.union1d(self.always_allow, self.lex[unique_src_ids, :].reshape(-1))  # type: ignore
+        unique_src_ids = np.unique(src_ids)  # type: ignore
+        trg_ids = np.union1d(self.always_allow, self.lex[unique_src_ids, :].reshape(-1))  # type: ignore
         logger.debug(f"lookup: {trg_ids.shape[0]} unique targets for {unique_src_ids.shape[0]} unique sources")
         return trg_ids
 

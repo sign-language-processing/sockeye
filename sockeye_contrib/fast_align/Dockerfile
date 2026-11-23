@@ -11,7 +11,7 @@
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-FROM amazonlinux:2017.09.0.20170930
+FROM amazonlinux:2017.09.0.20170930@sha256:b852ce504670f604074bb0a0285849c95541453c39da4a6abe19c096695ccfca
 
 RUN yum install -y \
     cmake \

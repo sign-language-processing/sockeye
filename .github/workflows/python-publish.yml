@@ -9,6 +9,8 @@ on:
 
 jobs:
   deploy:
+    # Fork releases are consumed through Git; PyPI publishing belongs to upstream.
+    if: github.repository == 'awslabs/sockeye'
 
     runs-on: ubuntu-latest
 
